@@ -1,0 +1,30 @@
+name: Atualizar dados do dashboard PEE
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rodar ETL (busca planilha e gera JSON)
+        run: python scripts/etl.py
+
+      - name: Commitar dados atualizados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          git diff --cached --quiet || git commit -m "Atualizar dados do dashboard PEE"
+          git push

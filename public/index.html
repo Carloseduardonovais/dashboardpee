@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEE Brasil · Dashboard Ação Engenharia</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <img class="logo-main" src="assets/logos/acao-engenharia.png" alt="Ação Engenharia" onerror="this.style.display='none'">
+    <div>
+      <h1>PEE Brasil — Programas de Eficiência Energética</h1>
+      <div class="subtitle">Resultados de projetos e mapa estratégico de chamadas públicas (CPPs)</div>
+    </div>
+  </div>
+  <div id="meta-atualizacao">Carregando...</div>
+</header>
+
+<div class="partner-logos" id="partner-logos">
+  <span>Concessionárias</span>
+</div>
+
+<nav class="tabs">
+  <button data-view="visao-geral" class="active">Visão Geral</button>
+  <button data-view="resultados">Resultados por Dimensão</button>
+  <button data-view="estrategico">Mapa Estratégico</button>
+  <button data-view="dados">Tabela de Projetos</button>
+</nav>
+
+<main>
+
+  <!-- VISÃO GERAL -->
+  <section class="view active" id="view-visao-geral">
+    <div class="filters">
+      <div class="field">
+        <label for="f-distribuidora">Distribuidora</label>
+        <select id="f-distribuidora"><option value="">Todas</option></select>
+      </div>
+      <div class="field">
+        <label for="f-ano">Ano</label>
+        <select id="f-ano"><option value="">Todos</option></select>
+      </div>
+      <div class="field">
+        <label for="f-resultado">Resultado</label>
+        <select id="f-resultado"><option value="">Todos</option></select>
+      </div>
+      <div class="field">
+        <label for="f-tipologia">Tipologia</label>
+        <select id="f-tipologia"><option value="">Todas</option></select>
+      </div>
+      <div class="field">
+        <label for="f-usos">Usos Finais</label>
+        <select id="f-usos"><option value="">Todos</option></select>
+      </div>
+      <button class="clear-btn" id="f-clear" type="button">Limpar filtros</button>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="chart-panel full">
+      <h3>Valor Solicitado ao PEE por Distribuidora (e RCB médio)</h3>
+      <div id="chart-por-distribuidora" style="height:380px;"></div>
+    </div>
+
+    <div class="panel-grid">
+      <div class="chart-panel">
+        <h3>Projetos por Resultado</h3>
+        <div id="chart-resultado-pizza" style="height:320px;"></div>
+      </div>
+      <div class="chart-panel">
+        <h3>Valor Solicitado por Ano</h3>
+        <div id="chart-por-ano" style="height:320px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS POR DIMENSÃO -->
+  <section class="view" id="view-resultados">
+    <div class="filters">
+      <div class="field">
+        <label for="f2-distribuidora">Distribuidora</label>
+        <select id="f2-distribuidora"><option value="">Todas</option></select>
+      </div>
+      <div class="field">
+        <label for="f2-ano">Ano</label>
+        <select id="f2-ano"><option value="">Todos</option></select>
+      </div>
+      <button class="clear-btn" id="f2-clear" type="button">Limpar filtros</button>
+    </div>
+
+    <div class="chart-panel full">
+      <h3>Por Usos Finais</h3>
+      <div id="chart-usos-finais" style="height:380px;"></div>
+    </div>
+    <div class="chart-panel full">
+      <h3>Por Tipologia</h3>
+      <div id="chart-tipologia" style="height:380px;"></div>
+    </div>
+    <div class="chart-panel full">
+      <h3>Por Empresa Proponente</h3>
+      <div id="chart-empresa" style="height:380px;"></div>
+    </div>
+    <div class="chart-panel full">
+      <h3>Por Cliente Beneficiado</h3>
+      <div id="chart-cliente" style="height:420px;"></div>
+    </div>
+    <div class="chart-panel full">
+      <h3>Por Pontuação Alcançada</h3>
+      <div id="chart-pontuacao" style="height:380px;"></div>
+    </div>
+  </section>
+
+  <!-- MAPA ESTRATÉGICO -->
+  <section class="view" id="view-estrategico">
+    <div class="filters">
+      <div class="field">
+        <label for="f3-camada">Camada do mapa</label>
+        <select id="f3-camada">
+          <option value="atuacao">Recurso aprovado por estado (onde já atuamos)</option>
+          <option value="editais">Recurso disponível em editais (por estado)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f3-ano-edital">Ano da chamada</label>
+        <select id="f3-ano-edital"><option value="">Todos</option></select>
+      </div>
+      <button class="clear-btn" id="f3-clear" type="button">Limpar seleção</button>
+    </div>
+
+    <div class="chart-panel full">
+      <h3 id="map-title">Mapa do Brasil</h3>
+      <div class="hint">Use a roda do mouse para zoom e arraste para navegar. Clique em um estado para ver os projetos/municípios dele.</div>
+      <div id="chart-mapa" style="height:560px;"></div>
+
+      <div class="drilldown" id="drilldown">
+        <div class="drilldown-head">
+          <h4 id="drilldown-title">Estado selecionado</h4>
+          <button id="drilldown-close" type="button">Fechar</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="tabela-drilldown">
+            <thead>
+              <tr>
+                <th>Cliente / Município</th><th>Tipologia</th><th>Empresa</th>
+                <th>RCB</th><th>Valor Solicitado</th><th>Resultado</th><th>Ano</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-panel full">
+      <h3>Editais / Chamadas Públicas (CPPs)</h3>
+      <div class="table-wrap">
+        <table class="data-table" id="tabela-editais">
+          <thead>
+            <tr>
+              <th>Distribuidora</th><th>Estado</th><th>Tipologia</th>
+              <th>Recurso Total</th><th>Min/Projeto</th><th>Max/Projeto</th>
+              <th>Ano</th><th>Abertura</th><th>Entrega</th><th>Status</th><th>Edital</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABELA DE DADOS -->
+  <section class="view" id="view-dados">
+    <div class="filters">
+      <div class="field grow">
+        <label for="busca-texto">Buscar</label>
+        <input id="busca-texto" type="text" placeholder="cliente, empresa, tipologia...">
+      </div>
+      <div class="field">
+        <label for="f4-distribuidora">Distribuidora</label>
+        <select id="f4-distribuidora"><option value="">Todas</option></select>
+      </div>
+      <div class="field">
+        <label for="f4-tipologia">Tipologia</label>
+        <select id="f4-tipologia"><option value="">Todas</option></select>
+      </div>
+      <div class="field">
+        <label for="f4-empresa">Empresa Proponente</label>
+        <select id="f4-empresa"><option value="">Todas</option></select>
+      </div>
+      <button class="clear-btn" id="f4-clear" type="button">Limpar filtros</button>
+    </div>
+    <div class="chart-panel full">
+      <div class="table-wrap">
+        <table class="data-table" id="tabela-projetos">
+          <thead>
+            <tr>
+              <th data-key="distribuidora">Distribuidora</th>
+              <th data-key="cliente">Cliente</th>
+              <th data-key="tipologia">Tipologia</th>
+              <th data-key="usos_finais">Usos Finais</th>
+              <th data-key="empresa_proponente">Empresa</th>
+              <th data-key="rcb_pee">RCB</th>
+              <th data-key="pontuacao_alcancada">Pontuação</th>
+              <th data-key="valor_solicitado_pee">Valor Solicitado</th>
+              <th data-key="resultado">Resultado</th>
+              <th data-key="ano">Ano</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Created by Carlos Oliveira</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
