@@ -9,74 +9,119 @@
 </head>
 <body>
 
-<header>
-  <div class="header-brand">
-    <img class="logo-main" src="assets/logos/acao-engenharia.png" alt="Ação Engenharia" onerror="this.style.display='none'">
-    <div>
-      <h1>PEE Brasil — Programas de Eficiência Energética</h1>
-      <div class="subtitle">Resultados de projetos e mapa estratégico de chamadas públicas (CPPs)</div>
-    </div>
-  </div>
-  <div id="meta-atualizacao">Carregando...</div>
-</header>
+<div class="app-layout">
 
-<div class="partner-logos" id="partner-logos">
-  <span>Concessionárias</span>
-</div>
-
-<nav class="tabs">
-  <button data-view="visao-geral" class="active">Visão Geral</button>
-  <button data-view="resultados">Resultados por Dimensão</button>
-  <button data-view="estrategico">Mapa Estratégico</button>
-  <button data-view="dados">Tabela de Projetos</button>
-</nav>
-
-<main>
-
-  <!-- VISÃO GERAL -->
-  <section class="view active" id="view-visao-geral">
-    <div class="filters">
-      <div class="field">
-        <label for="f-distribuidora">Distribuidora</label>
-        <select id="f-distribuidora"><option value="">Todas</option></select>
-      </div>
-      <div class="field">
-        <label for="f-ano">Ano</label>
-        <select id="f-ano"><option value="">Todos</option></select>
-      </div>
-      <div class="field">
-        <label for="f-resultado">Resultado</label>
-        <select id="f-resultado"><option value="">Todos</option></select>
-      </div>
-      <div class="field">
-        <label for="f-tipologia">Tipologia</label>
-        <select id="f-tipologia"><option value="">Todas</option></select>
-      </div>
-      <div class="field">
-        <label for="f-usos">Usos Finais</label>
-        <select id="f-usos"><option value="">Todos</option></select>
-      </div>
-      <button class="clear-btn" id="f-clear" type="button">Limpar filtros</button>
-    </div>
-
-    <div class="kpis" id="kpis"></div>
-
-    <div class="chart-panel full">
-      <h3>Valor Solicitado ao PEE por Distribuidora (e RCB médio)</h3>
-      <div id="chart-por-distribuidora" style="height:380px;"></div>
-    </div>
-
-    <div class="panel-grid">
-      <div class="chart-panel">
-        <h3>Projetos por Resultado</h3>
-        <div id="chart-resultado-pizza" style="height:320px;"></div>
-      </div>
-      <div class="chart-panel">
-        <h3>Valor Solicitado por Ano</h3>
-        <div id="chart-por-ano" style="height:320px;"></div>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img class="logo-main" src="assets/logos/acao-engenharia.png" alt="Ação Engenharia" onerror="this.style.display='none'">
+      <div>
+        <div class="brand-title">PEE Analytics</div>
+        <div class="brand-sub">Brasil</div>
       </div>
     </div>
-  </section>
+
+    <nav class="side-nav">
+      <button class="nav-item active" data-view="visao-geral">Visão Geral</button>
+
+      <div class="nav-section-label">Concessionárias</div>
+      <div id="nav-concessionarias"></div>
+
+      <div class="nav-section-label">Análises</div>
+      <button class="nav-item" data-view="estrategico">Mapa do Brasil</button>
+      <button class="nav-item" data-view="resultados">Resultados por Dimensão</button>
+      <button class="nav-item" data-view="dados">Histórico Completo</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="partner-logos" id="partner-logos"></div>
+      <div id="meta-atualizacao">Carregando...</div>
+    </div>
+  </aside>
+
+  <div class="content">
+
+    <header>
+      <div>
+        <h1 id="page-title">Visão Geral</h1>
+        <div class="subtitle" id="page-subtitle">Panorama nacional dos Programas de Eficiência Energética</div>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- VISÃO GERAL -->
+      <section class="view active" id="view-visao-geral">
+        <div class="filters">
+          <div class="field">
+            <label for="f-distribuidora">Distribuidora</label>
+            <select id="f-distribuidora"><option value="">Todas</option></select>
+          </div>
+          <div class="field">
+            <label for="f-ano">Ano</label>
+            <select id="f-ano"><option value="">Todos</option></select>
+          </div>
+          <div class="field">
+            <label for="f-resultado">Resultado</label>
+            <select id="f-resultado"><option value="">Todos</option></select>
+          </div>
+          <div class="field">
+            <label for="f-tipologia">Tipologia</label>
+            <select id="f-tipologia"><option value="">Todas</option></select>
+          </div>
+          <div class="field">
+            <label for="f-usos">Usos Finais</label>
+            <select id="f-usos"><option value="">Todos</option></select>
+          </div>
+          <button class="clear-btn" id="f-clear" type="button">Limpar filtros</button>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="chart-panel full">
+          <h3>Investimentos por Concessionária</h3>
+          <div id="chart-por-distribuidora" style="height:360px;"></div>
+        </div>
+
+        <div class="panel-grid panel-grid-3">
+          <div class="chart-panel">
+            <h3>Projetos por Tipologia</h3>
+            <div id="chart-tipologia-donut" style="height:300px;"></div>
+          </div>
+          <div class="chart-panel">
+            <h3>Projetos por Resultado</h3>
+            <div id="chart-resultado-pizza" style="height:300px;"></div>
+          </div>
+          <div class="chart-panel">
+            <h3>Projetos por Ano</h3>
+            <div id="chart-por-ano" style="height:300px;"></div>
+          </div>
+        </div>
+
+        <div class="panel-grid">
+          <div class="chart-panel">
+            <h3>Últimos Projetos Cadastrados</h3>
+            <div class="table-wrap table-wrap-sm">
+              <table class="data-table" id="tabela-ultimos-projetos">
+                <thead>
+                  <tr><th>Cliente</th><th>Distribuidora</th><th>Valor Solicitado</th><th>Ano</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="chart-panel">
+            <h3>Chamadas Públicas (CPPs)</h3>
+            <div class="table-wrap table-wrap-sm">
+              <table class="data-table" id="tabela-chamadas-abertas">
+                <thead>
+                  <tr><th>Distribuidora</th><th>Recurso Total</th><th>Entrega</th><th>Status</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
 
   <!-- RESULTADOS POR DIMENSÃO -->
   <section class="view" id="view-resultados">
@@ -146,7 +191,7 @@
             <thead>
               <tr>
                 <th>Cliente / Município</th><th>Tipologia</th><th>Empresa</th>
-                <th>RCB</th><th>Valor Solicitado</th><th>Resultado</th><th>Ano</th>
+                <th>RCB</th><th>Valor Solicitado</th><th>Contrapartida</th><th>Resultado</th><th>Ano</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -206,6 +251,7 @@
               <th data-key="rcb_pee">RCB</th>
               <th data-key="pontuacao_alcancada">Pontuação</th>
               <th data-key="valor_solicitado_pee">Valor Solicitado</th>
+              <th data-key="contrapartida">Contrapartida</th>
               <th data-key="resultado">Resultado</th>
               <th data-key="ano">Ano</th>
             </tr>
@@ -216,9 +262,12 @@
     </div>
   </section>
 
-</main>
+    </main>
 
-<footer>Created by Carlos Oliveira</footer>
+    <footer>Created by Carlos Oliveira</footer>
+
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>

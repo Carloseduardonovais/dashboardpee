@@ -153,15 +153,20 @@ function renderKPIs(data) {
   const totalSolicitado = data.reduce((s, d) => s + (d.valor_solicitado_pee || 0), 0);
   const aprovados = data.filter(d => resultadoTagClass(d.resultado) === "aprovado");
   const totalAprovado = aprovados.reduce((s, d) => s + (d.valor_solicitado_pee || 0), 0);
-  const rcbValues = data.map(d => d.rcb_pee).filter(v => v != null);
-  const rcbMedio = rcbValues.length ? rcbValues.reduce((s, v) => s + v, 0) / rcbValues.length : null;
+  const totalContrapartida = data.reduce((s, d) => s + (d.contrapartida || 0), 0);
   const taxaAprovacao = totalProjetos ? (aprovados.length / totalProjetos) * 100 : 0;
+  const concessionarias = new Set(data.map(d => d.distribuidora).filter(Boolean)).size;
+  const beneficiarios = new Set(data.map(d => d.cliente).filter(Boolean)).size;
+  const estados = new Set(data.map(d => d.uf).filter(Boolean)).size;
 
   const kpis = [
-    { label: "Projetos", value: totalProjetos, cls: "accent" },
+    { label: "Concessionárias", value: concessionarias, cls: "accent" },
+    { label: "Projetos", value: totalProjetos, cls: "" },
     { label: "Valor Solicitado ao PEE", value: fmtBRL(totalSolicitado), cls: "" },
     { label: "Valor Aprovado/Selecionado", value: fmtBRL(totalAprovado), cls: "ok" },
-    { label: "RCB Médio", value: fmtNum(rcbMedio), cls: "" },
+    { label: "Contrapartida Total", value: fmtBRL(totalContrapartida), cls: "" },
+    { label: "Beneficiários Atendidos", value: beneficiarios, cls: "" },
+    { label: "Estados Atendidos", value: estados, cls: "" },
     { label: "Taxa de Aprovação", value: fmtNum(taxaAprovacao, 1) + "%", cls: taxaAprovacao >= 50 ? "ok" : "warn" },
   ];
 
@@ -197,28 +202,100 @@ function renderPorDistribuidora(data) {
   }, PLOTLY_CONFIG);
 }
 
+function donutWithCenterLabel(divId, groups, centerLabel) {
+  const labels = groups.map(g => g.key);
+  const values = groups.map(g => g.value);
+  const total = values.reduce((s, v) => s + v, 0);
+  const palette = [COLORS.bar, COLORS.line, COLORS.ok, COLORS.warn, COLORS.neutro, "#7c8df0", "#f08a8a"];
+  Plotly.newPlot(divId, [{
+    type: "pie", labels, values, hole: 0.55,
+    marker: { colors: palette },
+    textfont: { color: COLORS.text, size: 11 },
+    textinfo: "percent",
+    hovertemplate: "%{label}<br>%{value} (%{percent})<extra></extra>",
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t: 10, r: 10, l: 10, b: 10 },
+    showlegend: true,
+    legend: { orientation: "v", font: { size: 10 }, x: 1, y: 0.5 },
+    annotations: [{
+      text: `<b>${total}</b><br>${centerLabel}`,
+      showarrow: false, font: { size: 13, color: COLORS.text },
+      x: 0.5, y: 0.5, xref: "paper", yref: "paper",
+    }],
+  }, PLOTLY_CONFIG);
+}
+
+function renderTipologiaDonut(data) {
+  const map = new Map();
+  for (const d of data) {
+    const k = d.tipologia || "—";
+    map.set(k, (map.get(k) || 0) + 1);
+  }
+  const groups = [...map.entries()].map(([key, value]) => ({ key, value }))
+    .sort((a, b) => b.value - a.value);
+  donutWithCenterLabel("chart-tipologia-donut", groups, "Projetos");
+}
+
 function renderResultadoPizza(data) {
   const groups = {};
   for (const d of data) {
     const k = d.resultado || "—";
     groups[k] = (groups[k] || 0) + 1;
   }
-  const labels = Object.keys(groups);
-  Plotly.newPlot("chart-resultado-pizza", [{
-    type: "pie", labels, values: labels.map(l => groups[l]),
-    hole: 0.45,
-    marker: { colors: [COLORS.bar, COLORS.ok, COLORS.line, COLORS.danger, COLORS.neutro] },
-    textfont: { color: COLORS.text },
-  }], { ...PLOTLY_LAYOUT_BASE, margin: { t: 10, r: 10, l: 10, b: 10 } }, PLOTLY_CONFIG);
+  const entries = Object.entries(groups).map(([key, value]) => ({ key, value }));
+  donutWithCenterLabel("chart-resultado-pizza", entries, "Projetos");
 }
 
 function renderPorAno(data) {
-  const groups = groupAgg(data, "ano");
-  groups.sort((a, b) => String(a.key).localeCompare(String(b.key)));
+  const map = new Map();
+  for (const d of data) {
+    const k = d.ano ?? "—";
+    map.set(k, (map.get(k) || 0) + 1);
+  }
+  const groups = [...map.entries()].map(([key, value]) => ({ key, value }))
+    .sort((a, b) => String(a.key).localeCompare(String(b.key)));
   Plotly.newPlot("chart-por-ano", [{
-    type: "bar", x: groups.map(g => g.key), y: groups.map(g => g.valor),
-    marker: { color: COLORS.bar },
-  }], { ...PLOTLY_LAYOUT_BASE, xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, tickangle: 0 } }, PLOTLY_CONFIG);
+    type: "scatter", mode: "lines+markers", x: groups.map(g => g.key), y: groups.map(g => g.value),
+    line: { color: COLORS.bar, shape: "spline" }, marker: { color: COLORS.bar },
+    fill: "tozeroy", fillcolor: "rgba(84,112,255,0.12)",
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t: 10, r: 16, l: 36, b: 30 },
+    xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, tickangle: 0 },
+    yaxis: { title: "Projetos", gridcolor: COLORS.grid },
+  }, PLOTLY_CONFIG);
+}
+
+function renderUltimosProjetos(data) {
+  const rows = data.slice().sort((a, b) => (b.ano ?? 0) - (a.ano ?? 0)).slice(0, 8);
+  const tbody = document.querySelector("#tabela-ultimos-projetos tbody");
+  tbody.innerHTML = rows.map(d => `
+    <tr>
+      <td>${truncate(d.cliente, 30)}</td>
+      <td>${d.distribuidora}</td>
+      <td>${fmtBRL(d.valor_solicitado_pee)}</td>
+      <td>${d.ano ?? "—"}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="4">Nenhum projeto encontrado.</td></tr>`;
+}
+
+function renderChamadasAbertasMini() {
+  const hoje = new Date();
+  const rows = EDITAIS
+    .filter(e => e.data_entrega && new Date(e.data_entrega) >= hoje)
+    .sort((a, b) => new Date(a.data_entrega) - new Date(b.data_entrega))
+    .slice(0, 8);
+  const fallback = rows.length ? rows : EDITAIS.slice(0, 8);
+  const tbody = document.querySelector("#tabela-chamadas-abertas tbody");
+  tbody.innerHTML = fallback.map(e => `
+    <tr>
+      <td>${e.distribuidora}</td>
+      <td>${fmtBRL(e.recurso_total_tipologia)}</td>
+      <td>${e.data_entrega ?? "—"}</td>
+      <td><span class="tag ${resultadoTagClass(e.status)}">${e.status || "—"}</span></td>
+    </tr>
+  `).join("") || `<tr><td colspan="4">Nenhuma chamada encontrada.</td></tr>`;
 }
 
 function renderVisaoGeral() {
@@ -226,8 +303,11 @@ function renderVisaoGeral() {
   const data = applyFilters(RESULTADOS, filters);
   renderKPIs(data);
   renderPorDistribuidora(data);
+  renderTipologiaDonut(data);
   renderResultadoPizza(data);
   renderPorAno(data);
+  renderUltimosProjetos(data);
+  renderChamadasAbertasMini();
 }
 
 // ---------- view: Resultados por Dimensão ----------
@@ -437,15 +517,15 @@ function showDrilldown(uf, camada) {
     title.textContent = `Editais em ${uf}`;
   } else {
     const rows = RESULTADOS.filter(r => r.uf === uf);
-    thead.innerHTML = "<th>Cliente / Município</th><th>Tipologia</th><th>Empresa</th><th>RCB</th><th>Valor Solicitado</th><th>Resultado</th><th>Ano</th>";
+    thead.innerHTML = "<th>Cliente / Município</th><th>Tipologia</th><th>Empresa</th><th>RCB</th><th>Valor Solicitado</th><th>Contrapartida</th><th>Resultado</th><th>Ano</th>";
     tbody.innerHTML = rows.map(r => `
       <tr>
         <td>${r.cliente || "—"}</td><td>${r.tipologia || "—"}</td><td>${r.empresa_proponente || "—"}</td>
-        <td>${fmtNum(r.rcb_pee)}</td><td>${fmtBRL(r.valor_solicitado_pee)}</td>
+        <td>${fmtNum(r.rcb_pee)}</td><td>${fmtBRL(r.valor_solicitado_pee)}</td><td>${fmtBRL(r.contrapartida)}</td>
         <td><span class="tag ${resultadoTagClass(r.resultado)}">${r.resultado || "—"}</span></td>
         <td>${r.ano ?? "—"}</td>
       </tr>
-    `).join("") || `<tr><td colspan="7">Nenhum projeto encontrado para este estado.</td></tr>`;
+    `).join("") || `<tr><td colspan="8">Nenhum projeto encontrado para este estado.</td></tr>`;
     title.textContent = `Projetos em ${uf} (${rows.length})`;
   }
 
@@ -519,23 +599,50 @@ function renderTabelaProjetos() {
       <td>${fmtNum(d.rcb_pee)}</td>
       <td>${fmtNum(d.pontuacao_alcancada, 1)}</td>
       <td>${fmtBRL(d.valor_solicitado_pee)}</td>
+      <td>${fmtBRL(d.contrapartida)}</td>
       <td><span class="tag ${resultadoTagClass(d.resultado)}">${d.resultado || "—"}</span></td>
       <td>${d.ano ?? "—"}</td>
     </tr>
   `).join("");
 }
 
-// ---------- navegação por abas ----------
+// ---------- navegação pela sidebar ----------
 
-function setupTabs() {
-  const buttons = document.querySelectorAll("nav.tabs button");
-  buttons.forEach(btn => {
+const PAGE_TITLES = {
+  "visao-geral": ["Visão Geral", "Panorama nacional dos Programas de Eficiência Energética"],
+  "resultados": ["Resultados por Dimensão", "Comparativos por usos finais, tipologia, empresa e cliente"],
+  "estrategico": ["Mapa do Brasil", "Mapa estratégico de atuação e chamadas públicas (CPPs)"],
+  "dados": ["Histórico Completo", "Todos os projetos cadastrados, com busca e filtros"],
+};
+
+function setActiveView(view) {
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+  document.querySelectorAll("main .view").forEach(v => v.classList.remove("active"));
+  document.getElementById(`view-${view}`).classList.add("active");
+  const [title, subtitle] = PAGE_TITLES[view] || ["", ""];
+  document.getElementById("page-title").textContent = title;
+  document.getElementById("page-subtitle").textContent = subtitle;
+  renderActiveView(view);
+}
+
+function setupSidebarNav() {
+  document.querySelectorAll(".nav-item[data-view]").forEach(btn => {
+    btn.addEventListener("click", () => setActiveView(btn.dataset.view));
+  });
+}
+
+function renderConcessionariasNav() {
+  const distribuidoras = uniqueSorted(RESULTADOS, "distribuidora");
+  const container = document.getElementById("nav-concessionarias");
+  container.innerHTML = distribuidoras.map(d =>
+    `<button class="nav-item nav-item-sub" data-distribuidora="${d}">${d}</button>`
+  ).join("");
+  container.querySelectorAll("[data-distribuidora]").forEach(btn => {
     btn.addEventListener("click", () => {
-      buttons.forEach(b => b.classList.remove("active"));
+      document.getElementById("f-distribuidora").value = btn.dataset.distribuidora;
+      setActiveView("visao-geral");
+      container.querySelectorAll(".nav-item-sub").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      document.querySelectorAll("main .view").forEach(v => v.classList.remove("active"));
-      document.getElementById(`view-${btn.dataset.view}`).classList.add("active");
-      renderActiveView(btn.dataset.view);
     });
   });
 }
@@ -611,8 +718,9 @@ function setupFilters() {
 async function init() {
   await loadAll();
   renderPartnerLogos();
+  renderConcessionariasNav();
   setupFilters();
-  setupTabs();
+  setupSidebarNav();
   renderVisaoGeral();
 }
 

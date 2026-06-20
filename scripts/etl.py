@@ -152,36 +152,64 @@ def parse_br_date(value: str | None) -> str | None:
     return f"{y}-{int(mth):02d}-{int(d):02d}"
 
 
+def build_canonical_map(values) -> dict[str, str]:
+    """Diferentes abas usam casing diferente para a mesma categoria
+    (ex.: 'COMÉRCIO E SERVIÇOS' vs 'Comércio e Serviços'). Mapeia cada
+    variante (por chave maiúscula) para uma única forma canônica,
+    preferindo a versão que não está em CAIXA ALTA."""
+    canon: dict[str, str] = {}
+    for raw in values:
+        v = clean_text(raw)
+        if not v or v == "-":
+            continue
+        key = v.upper()
+        if key not in canon or (canon[key].isupper() and not v.isupper()):
+            canon[key] = v
+    return canon
+
+
+def apply_canonical(canon: dict[str, str], raw) -> str:
+    v = clean_text(raw)
+    if not v or v == "-":
+        return ""
+    return canon.get(v.upper(), v)
+
+
 def load_resultados() -> list[dict]:
-    registros: list[dict] = []
+    linhas_por_aba: list[tuple[str, dict]] = []
     for nome_aba, gid in SHEET_GIDS.items():
         if nome_aba == "editais":
             continue
-        linhas = fetch_sheet(gid)
-        for linha in linhas:
-            titulo = clean_text(linha.get("Título Projeto"))
-            if not titulo:
-                continue
-            distribuidora = (
-                clean_text(linha.get("Distribuidora"))
-                or SHEET_DEFAULT_DISTRIBUIDORA.get(nome_aba, nome_aba)
-            )
-            registros.append({
-                "distribuidora": distribuidora,
-                "uf": DISTRIBUIDORA_UF.get(distribuidora),
-                "titulo_projeto": titulo,
-                "tipologia": clean_text(linha.get("Tipologia")),
-                "usos_finais": clean_text(linha.get("Usos Finais")),
-                "empresa_proponente": clean_text(linha.get("Empresa Proponente")),
-                "cliente": clean_text(linha.get("Nome do cliente beneficiado")),
-                "rcb_pee": parse_comma_float(linha.get("RCB PEE")),
-                "valor_total_projeto": parse_brl(linha.get("Valor total do Projeto")),
-                "valor_solicitado_pee": parse_brl(linha.get("Valor Solicitado ao PEE")),
-                "contrapartida": parse_brl(linha.get("Contrapartida")),
-                "pontuacao_alcancada": parse_comma_float(linha.get("Pontuação Alcançada")),
-                "resultado": clean_text(linha.get("Resultado")),
-                "ano": parse_int(linha.get("Ano")),
-            })
+        for linha in fetch_sheet(gid):
+            if clean_text(linha.get("Título Projeto")):
+                linhas_por_aba.append((nome_aba, linha))
+
+    canon_tipologia = build_canonical_map(linha.get("Tipologia") for _, linha in linhas_por_aba)
+    canon_usos = build_canonical_map(linha.get("Usos Finais") for _, linha in linhas_por_aba)
+    canon_resultado = build_canonical_map(linha.get("Resultado") for _, linha in linhas_por_aba)
+
+    registros: list[dict] = []
+    for nome_aba, linha in linhas_por_aba:
+        distribuidora = (
+            clean_text(linha.get("Distribuidora"))
+            or SHEET_DEFAULT_DISTRIBUIDORA.get(nome_aba, nome_aba)
+        )
+        registros.append({
+            "distribuidora": distribuidora,
+            "uf": DISTRIBUIDORA_UF.get(distribuidora),
+            "titulo_projeto": clean_text(linha.get("Título Projeto")),
+            "tipologia": apply_canonical(canon_tipologia, linha.get("Tipologia")),
+            "usos_finais": apply_canonical(canon_usos, linha.get("Usos Finais")),
+            "empresa_proponente": clean_text(linha.get("Empresa Proponente")),
+            "cliente": clean_text(linha.get("Nome do cliente beneficiado")),
+            "rcb_pee": parse_comma_float(linha.get("RCB PEE")),
+            "valor_total_projeto": parse_brl(linha.get("Valor total do Projeto")),
+            "valor_solicitado_pee": parse_brl(linha.get("Valor Solicitado ao PEE")),
+            "contrapartida": parse_brl(linha.get("Contrapartida")),
+            "pontuacao_alcancada": parse_comma_float(linha.get("Pontuação Alcançada")),
+            "resultado": apply_canonical(canon_resultado, linha.get("Resultado")),
+            "ano": parse_int(linha.get("Ano")),
+        })
     return registros
 
 
