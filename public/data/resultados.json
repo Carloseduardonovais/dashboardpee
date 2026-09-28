@@ -2314,7 +2314,7 @@
     "rcb_pee": 0.44,
     "valor_total_projeto": 341848.32,
     "valor_solicitado_pee": 341848.32,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 84.01,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2330,7 +2330,7 @@
     "rcb_pee": 0.52,
     "valor_total_projeto": 695125.79,
     "valor_solicitado_pee": 695125.79,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 87.1,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2346,7 +2346,7 @@
     "rcb_pee": 0.46,
     "valor_total_projeto": 700000.0,
     "valor_solicitado_pee": 700000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 82.03,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2362,7 +2362,7 @@
     "rcb_pee": 0.53,
     "valor_total_projeto": 700000.0,
     "valor_solicitado_pee": 700000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 77.31,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2378,7 +2378,7 @@
     "rcb_pee": 0.32,
     "valor_total_projeto": 700000.0,
     "valor_solicitado_pee": 700000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 74.54,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2394,7 +2394,7 @@
     "rcb_pee": 0.54,
     "valor_total_projeto": 651531.42,
     "valor_solicitado_pee": 651531.42,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 65.74,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2410,7 +2410,7 @@
     "rcb_pee": 0.05,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 80.72,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2426,7 +2426,7 @@
     "rcb_pee": 0.05,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 79.74,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2442,7 +2442,7 @@
     "rcb_pee": 0.06,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 78.13,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2458,7 +2458,7 @@
     "rcb_pee": 0.07,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 77.69,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2474,7 +2474,7 @@
     "rcb_pee": 0.1,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 75.62,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2490,7 +2490,7 @@
     "rcb_pee": 0.15,
     "valor_total_projeto": 261750.93,
     "valor_solicitado_pee": 261750.93,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 66.63,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2506,7 +2506,7 @@
     "rcb_pee": 0.1,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 64.95,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2522,7 +2522,7 @@
     "rcb_pee": 0.11,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 63.15,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2538,7 +2538,7 @@
     "rcb_pee": 0.32,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 62.27,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2554,7 +2554,7 @@
     "rcb_pee": 0.15,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 62.19,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2570,7 +2570,7 @@
     "rcb_pee": 0.66,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 61.23,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2586,7 +2586,7 @@
     "rcb_pee": 0.2,
     "valor_total_projeto": 499867.55,
     "valor_solicitado_pee": 499867.55,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 60.81,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2602,7 +2602,7 @@
     "rcb_pee": 0.33,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 59.92,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2618,7 +2618,7 @@
     "rcb_pee": 0.41,
     "valor_total_projeto": 396465.47,
     "valor_solicitado_pee": 396465.47,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 58.86,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2634,7 +2634,7 @@
     "rcb_pee": 0.0,
     "valor_total_projeto": 0.0,
     "valor_solicitado_pee": 0.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 0.0,
     "resultado": "Reprovado",
     "ano": 2025
@@ -2650,7 +2650,7 @@
     "rcb_pee": 0.15,
     "valor_total_projeto": 1563415.26,
     "valor_solicitado_pee": 1563415.26,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 69.74,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2666,7 +2666,7 @@
     "rcb_pee": 0.32,
     "valor_total_projeto": 541283.2,
     "valor_solicitado_pee": 541283.2,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 58.11,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2682,7 +2682,7 @@
     "rcb_pee": 0.25,
     "valor_total_projeto": 944019.97,
     "valor_solicitado_pee": 944019.97,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 55.75,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2698,7 +2698,7 @@
     "rcb_pee": 0.36,
     "valor_total_projeto": 532532.0,
     "valor_solicitado_pee": 532532.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 55.48,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2714,7 +2714,7 @@
     "rcb_pee": 0.3,
     "valor_total_projeto": 12000000.0,
     "valor_solicitado_pee": 12000000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 93.44,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2730,7 +2730,7 @@
     "rcb_pee": 0.56,
     "valor_total_projeto": 2243115.21,
     "valor_solicitado_pee": 2243115.21,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 91.37,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2746,7 +2746,7 @@
     "rcb_pee": 0.6,
     "valor_total_projeto": 1806461.56,
     "valor_solicitado_pee": 1806461.56,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 74.79,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2762,7 +2762,7 @@
     "rcb_pee": 0.67,
     "valor_total_projeto": 2123744.84,
     "valor_solicitado_pee": 2123744.84,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 69.64,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2778,7 +2778,7 @@
     "rcb_pee": 0.61,
     "valor_total_projeto": 882288.0,
     "valor_solicitado_pee": 882288.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 59.41,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2794,7 +2794,7 @@
     "rcb_pee": 0.52,
     "valor_total_projeto": 583734.7,
     "valor_solicitado_pee": 583734.7,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 85.96,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2810,7 +2810,7 @@
     "rcb_pee": 0.66,
     "valor_total_projeto": 546431.32,
     "valor_solicitado_pee": 546431.32,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 75.08,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2826,7 +2826,7 @@
     "rcb_pee": 0.74,
     "valor_total_projeto": 599730.09,
     "valor_solicitado_pee": 599730.09,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 70.03,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2842,7 +2842,7 @@
     "rcb_pee": 0.18,
     "valor_total_projeto": 499622.56,
     "valor_solicitado_pee": 499622.56,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 86.94,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2858,7 +2858,7 @@
     "rcb_pee": 0.29,
     "valor_total_projeto": 498966.15,
     "valor_solicitado_pee": 498966.15,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 67.97,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2874,7 +2874,7 @@
     "rcb_pee": 0.62,
     "valor_total_projeto": 462026.66,
     "valor_solicitado_pee": 462026.66,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 47.04,
     "resultado": "Aprovado",
     "ano": 2025
@@ -2890,7 +2890,7 @@
     "rcb_pee": 0.0,
     "valor_total_projeto": 0.0,
     "valor_solicitado_pee": 0.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 0.0,
     "resultado": "",
     "ano": 2025
@@ -2906,7 +2906,7 @@
     "rcb_pee": 0.29,
     "valor_total_projeto": 500000.0,
     "valor_solicitado_pee": 500000.0,
-    "contrapartida": null,
+    "contrapartida": 0.0,
     "pontuacao_alcancada": 89.25,
     "resultado": "Aprovado",
     "ano": 2025
