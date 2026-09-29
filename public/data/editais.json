@@ -1648,5 +1648,35 @@
     "divulgacao_final": "2027-01-22",
     "link_edital": "https://equatorial.gestaocpp.com.br/",
     "status": "Em andamento"
+  },
+  {
+    "distribuidora": "Enel SP",
+    "estado": "São Paulo",
+    "uf": "SP",
+    "tipologia": "Bônus (Eletrodomésticos) Residencial",
+    "recurso_total_tipologia": 15000000.0,
+    "recurso_minimo_projeto": 15000000.0,
+    "recurso_maximo_projeto": 15000000.0,
+    "ano_chamada": 2026,
+    "data_abertura": "2026-09-22",
+    "data_entrega": "2026-11-13",
+    "divulgacao_final": "2026-12-23",
+    "link_edital": "https://sp-cpp.enel.com/",
+    "status": "Em andamento"
+  },
+  {
+    "distribuidora": "Enel SP",
+    "estado": "São Paulo",
+    "uf": "SP",
+    "tipologia": "Bônus (Eletrodomésticos) Comércio e Serviços",
+    "recurso_total_tipologia": 5000000.0,
+    "recurso_minimo_projeto": 5000000.0,
+    "recurso_maximo_projeto": 5000000.0,
+    "ano_chamada": 2026,
+    "data_abertura": "2026-09-22",
+    "data_entrega": "2026-11-13",
+    "divulgacao_final": "2026-12-23",
+    "link_edital": "https://sp-cpp.enel.com/",
+    "status": "Em andamento"
   }
 ]
